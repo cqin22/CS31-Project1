@@ -1,0 +1,15 @@
+﻿Input provided in step 5:
+* 150 registered voters
+* 110 Gavin voters
+* 40 Brian voters
+
+
+Logical errors*: 
+* In Line 21/22, I used an int type instead of a double type to declare pctGavin/pctBrian, therefore producing inaccurate, non-decimal results
+* In line 28/29, I mismatched pctBrian and pctGavin when outputting “% say they will vote for…”, a nonsensical result
+* It should be noted that the original file already includes a logical error (sometimes) as the program does not account for the instance when percentages for Gavin and Brian are equal.
+
+
+Compile errors:
+* In line 14, I used “cout >>”, instead of “cout <<”, giving a compiler error of “invalid operands to binary expression”
+* In line 21, I didn’t use a “;” where necessary, giving a compiler error of “expected ‘;’ at the end of declaration”
