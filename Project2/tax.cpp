@@ -1,3 +1,5 @@
+// Official tax calculator based on income brackets and children
+
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -60,7 +62,7 @@ int main() {
         tax -= 200;
         children--;
     }
-    
+
     // Prints final answer with 2 decimal points
     cout << name << " would pay $";
     cout << fixed << setprecision(2) << tax << endl;
