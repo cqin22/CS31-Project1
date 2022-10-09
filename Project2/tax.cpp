@@ -10,6 +10,7 @@ int main() {
     int children;
     float tax;
 
+    // Gets user inputs for profile
     cout << "Name: ";
     getline(cin, name);
     if(name == ""){cout << "You must enter a name";}
@@ -29,6 +30,7 @@ int main() {
 
     cout << "---" << endl;
     
+    // Calculates tax, providing two branches for special occupations
     if(occupation == "nurse" || occupation == "teacher"){
         if(income < 55000){
             tax = income * 0.04;
@@ -53,10 +55,13 @@ int main() {
         }
     }
 
+    // Reduces tax for number of children
     while(tax > 0 && children > 0){
         tax -= 200;
         children--;
     }
+    
+    // Prints final answer with 2 decimal points
     cout << name << " would pay $";
     cout << fixed << setprecision(2) << tax << endl;
 }
