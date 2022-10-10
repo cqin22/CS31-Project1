@@ -15,20 +15,32 @@ int main() {
     // Gets user inputs for profile
     cout << "Name: ";
     getline(cin, name);
-    if(name == ""){cout << "You must enter a name";}
+    if(name == ""){
+        cout << "---" << endl << "You must enter a name";
+        return 1;
+    } // Accounts for bad input
 
     cout << "Taxable income: ";
     cin >> income;
-    if (income < 0){cout << "The taxable income must not be negative";}
+    if (income < 0){
+        cout << "---" << endl << "The taxable income must not be negative";
+        return 1;
+    }
 
     cin.ignore(10000, '\n');
     cout << "Occupation: ";
     getline(cin, occupation);
-    if (occupation == ""){cout << "You must enter an occupation";}
+    if (occupation == ""){
+        cout << "---" << endl << "You must enter an occupation";
+        return 1;
+    }
 
     cout << "Number of children: ";
     cin >> children;
-    if (children < 0){cout << "The number of children must not be negative";}
+    if (children < 0){
+        cout << "---" << endl << "The number of children must not be negative";
+        return 1;
+    }
 
     cout << "---" << endl;
     
