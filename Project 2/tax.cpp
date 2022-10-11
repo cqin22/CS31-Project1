@@ -53,7 +53,7 @@ int main() {
             tax = 55000 * 0.04 + (income - 55000) * 0.05;
         }
         else if(income > 125000){
-            tax = 55000 * 0.04 + 15000 * 0.05 + (income - 125000) * 9.3;
+            tax = 55000 * 0.04 + 15000 * 0.05 + (income - 125000) * 0.093;
         }
     }
 
@@ -70,7 +70,7 @@ int main() {
     }
 
     // Reduces tax for number of children
-    while(tax > 0 && children > 0){
+    while(tax < 125000 && children > 0){
         tax -= 200;
         children--;
     }
