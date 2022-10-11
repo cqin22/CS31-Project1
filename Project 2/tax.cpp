@@ -70,10 +70,12 @@ int main() {
     }
 
     // Reduces tax for number of children
-    while(tax < 125000 && children > 0){
+    while(income < 125000 && children > 0){
         tax -= 200;
         children--;
     }
+
+    if (tax < 0) {tax = 0;}
 
     // Prints final answer with 2 decimal points
     cout << name << " would pay $";
