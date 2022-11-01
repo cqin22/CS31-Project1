@@ -4,7 +4,7 @@ using namespace std;
 
 int appendToAll(string a[], int n, string value)
 {
-    if (n < 1)
+    if (n < 0)
         return -1;
     for (int i = 0; i < n; i++)
         a[i] += value;
@@ -13,7 +13,7 @@ int appendToAll(string a[], int n, string value)
 
 int lookup(const string a[], int n, string target)
 {
-    if (n < 1)
+    if (n < 0)
         return -1;
     for (int i = 0; i < n; i++)
         if (a[i] == target)
@@ -23,7 +23,7 @@ int lookup(const string a[], int n, string target)
 
 int positionOfMax(const string a[], int n)
 {
-    if (n < 1)
+    if (n <= 0)
         return -1;
     string max = a[0];
 
@@ -44,19 +44,24 @@ int positionOfMax(const string a[], int n)
 
 int rotateLeft(string a[], int n, int pos)
 {
+    if (n < 0)
+        return -1;
+    if (pos < 0)
+        return -1;
     string first = a[pos];
-    for (int i = pos; i < n-1; i++)
+    for (int i = pos; i < n - 2; i++)
     {
         a[i] = a[i + 1];
     }
     a[n - 1] = first;
-
     return pos;
 }
 
 // likely wrong
 int countRuns(const string a[], int n)
 {
+    if (n < 0)
+        return -1;
 
     int count = 0;
     for (int i = -1; i < n - 1;)
@@ -73,6 +78,8 @@ int countRuns(const string a[], int n)
 
 int flip(string a[], int n)
 {
+    if (n < 0)
+        return -1;
     int z = n - 1;
     string temp;
     for (int i = 0; i < n / 2; i++)
@@ -87,6 +94,8 @@ int flip(string a[], int n)
 
 int differ(const string a1[], int n1, const string a2[], int n2)
 {
+    if (n1 < 0 || n2 < 0)
+        return -1;
     int smaller;
     if (n1 < n2)
         smaller = n1;
@@ -108,6 +117,10 @@ int differ(const string a1[], int n1, const string a2[], int n2)
 
 int subsequence(const string a1[], int n1, const string a2[], int n2)
 {
+    if (n1 < 0 || n2 < 0)
+        return -1;
+    if ((n1 == 0 && n2 == 0) || n2 == 0)
+        return 0;
     int i = 0;
     bool ans = false;
     while (i < n1)
@@ -130,6 +143,8 @@ int subsequence(const string a1[], int n1, const string a2[], int n2)
 
 int lookupAny(const string a1[], int n1, const string a2[], int n2)
 {
+    if (n1 < 0 || n2 < 0)
+        return -1;
 
     int i = 0;
     while (i < n1)
@@ -146,6 +161,8 @@ int lookupAny(const string a1[], int n1, const string a2[], int n2)
 
 int split(string a[], int n, string splitter)
 {
+    if (n < 0)
+        return -1;
     int element = 0;
     int j;
     string newa[n];
@@ -192,7 +209,6 @@ int split(string a[], int n, string splitter)
 // newa[0] = "test";
 int main()
 {
-
     string h[7] = {"rishi", "margaret", "gordon", "tony", "", "john", "liz"};
     assert(lookup(h, 7, "john") == 5);
     assert(lookup(h, 7, "gordon") == 2);
@@ -203,10 +219,10 @@ int main()
     assert(differ(h, 4, g, 4) == 2);
     assert(appendToAll(g, 4, "?") == 4 && g[0] == "rishi?" && g[3] == "theresa?");
     assert(rotateLeft(g, 4, 1) == 1 && g[1] == "liz?" && g[3] == "margaret?");
-    
-    string mp[5] = { "john", "david", "liz", "theresa", "margaret" };
-    int m = rotateLeft(mp, 5, 1);  // returns 1
-        // mp now contains:  "john", "liz", "theresa", "margaret", "david"
+
+    string mp[5] = {"john", "david", "liz", "theresa", "margaret"};
+    int m = rotateLeft(mp, 5, 1); // returns 1
+                                  // mp now contains:  "john", "liz", "theresa", "margaret", "david"
     for (int i = 0; i < 5; i++)
     {
         cout << mp[i];
@@ -259,7 +275,7 @@ int main()
     for (int j = 0; j < 4; j++)
         cout << pm2[j] << " ";
     cout << endl;
-    assert(y==2);
+    assert(y == 2);
 
     // pm2 must now be either
     //      "margaret"  "liz"  "rishi"  "theresa"
