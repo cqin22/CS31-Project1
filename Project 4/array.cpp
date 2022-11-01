@@ -45,11 +45,12 @@ int positionOfMax(const string a[], int n)
 int rotateLeft(string a[], int n, int pos)
 {
     string first = a[pos];
-    for (int i = pos; i < n; i++)
+    for (int i = pos; i < n-1; i++)
     {
         a[i] = a[i + 1];
     }
     a[n - 1] = first;
+
     return pos;
 }
 
@@ -202,6 +203,14 @@ int main()
     assert(differ(h, 4, g, 4) == 2);
     assert(appendToAll(g, 4, "?") == 4 && g[0] == "rishi?" && g[3] == "theresa?");
     assert(rotateLeft(g, 4, 1) == 1 && g[1] == "liz?" && g[3] == "margaret?");
+    
+    string mp[5] = { "john", "david", "liz", "theresa", "margaret" };
+    int m = rotateLeft(mp, 5, 1);  // returns 1
+        // mp now contains:  "john", "liz", "theresa", "margaret", "david"
+    for (int i = 0; i < 5; i++)
+    {
+        cout << mp[i];
+    }
 
     string d[5] = {"margaret", "margaret", "margaret", "tony", "tony"};
     assert(countRuns(d, 5) == 2);
@@ -250,6 +259,7 @@ int main()
     for (int j = 0; j < 4; j++)
         cout << pm2[j] << " ";
     cout << endl;
+    assert(y==2);
 
     // pm2 must now be either
     //      "margaret"  "liz"  "rishi"  "theresa"
