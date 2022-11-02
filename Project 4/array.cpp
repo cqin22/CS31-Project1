@@ -54,7 +54,7 @@ int rotateLeft(string a[], int n, int pos)
         return -1;
     if(pos > n) return -1;
     string first = a[pos];
-    for (int i = pos; i < n - 2; i++)
+    for (int i = pos; i < n - 1; i++)
     {
         a[i] = a[i + 1];
     }
