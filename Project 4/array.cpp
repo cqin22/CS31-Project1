@@ -26,7 +26,7 @@ int lookup(const string a[], int n, string target)
 int positionOfMax(const string a[], int n)
 {
     // Return the position of a string in the array such that that string is >= every string in the array
-    if (n <= 0)
+    if (n < 0)
         return -1;
     string max = a[0];
 
@@ -52,6 +52,7 @@ int rotateLeft(string a[], int n, int pos)
         return -1;
     if (pos < 0)
         return -1;
+    if(pos > n) return -1;
     string first = a[pos];
     for (int i = pos; i < n - 2; i++)
     {
@@ -219,104 +220,95 @@ int split(string a[], int n, string splitter)
 // newa[0] = "test";
 int main()
 {
-    string h[7] = {"rishi", "margaret", "gordon", "tony", "", "john", "liz"};
-    assert(lookup(h, 7, "john") == 5);
-    assert(lookup(h, 7, "gordon") == 2);
-    assert(lookup(h, 2, "gordon") == -1);
-    assert(positionOfMax(h, 7) == 3);
+    string people[5] = {"boris", "gordon", "rishi", "liz", "john"};
+        cerr << "appendToAll(people, -4, \"!!!\") = " << appendToAll(people, -4, "!!!") << endl; //test negative
+        cerr << "appendToAll(people, 5, \"!!!\") = " << appendToAll(people, 5, "!!!") << endl; //test normal cases
+        for (int i = 0; i < sizeof(people)/sizeof(string); i++) {
+            cerr << people[i] << " ";
+        }
+        cerr << "\n\n";
 
-    string g[4] = {"rishi", "margaret", "liz", "theresa"};
-    assert(differ(h, 4, g, 4) == 2);
-    assert(appendToAll(g, 4, "?") == 4 && g[0] == "rishi?" && g[3] == "theresa?");
-    assert(rotateLeft(g, 4, 1) == 1 && g[1] == "liz?" && g[3] == "margaret?");
+        string people1[6] = {"boris", "gordon", "rishi", "liz", "john", "gordon"};
+        cerr << "lookup(people1, 6, \"gordon\") = " << lookup(people1, 6, "gordon") << endl; //find earliest gordon
+        cerr << "lookup(people1, 6, \"arthur\") = " << lookup(people1, 6, "arthur") << endl; //what if target string doesn't exist
+        cerr << "\n";
 
-    string mp[5] = {"john", "david", "liz", "theresa", "margaret"};
-    int m = rotateLeft(mp, 5, 1); // returns 1
-                                  // mp now contains:  "john", "liz", "theresa", "margaret", "david"
-    for (int i = 0; i < 5; i++)
-    {
-        cout << mp[i];
-    }
+        string pm[7] = {"david", "liz", "margaret", "tony", "gordon", "boris", "tony"};
+        cerr << "positionOfMax(pm, 7) = " << positionOfMax(pm, 7) << endl; //finds first instance of alphabetically-last name
+        string pm1[0] = {};
+        cerr << "positionOfMax(pm1, 0) = " << positionOfMax(pm1, 0) << endl; //if no interesting elements
+        cerr << "\n";
 
-    string d[5] = {"margaret", "margaret", "margaret", "tony", "tony"};
-    assert(countRuns(d, 5) == 2);
+        string mp[5] = {"john", "david", "liz", "theresa", "margaret"};
+        cerr << "rotateLeft(mp, 5, 1) = " << rotateLeft(mp, 5, 1) << endl; //tests a normal scenario
+        for (int i = 0; i < sizeof(mp)/sizeof(string); i++) { //look at new array
+            cerr << mp[i] << " ";
+        }
+        cerr << endl;
+        string mp1[5] = {"john", "david", "liz", "theresa", "margaret"};
+        cerr << "rotateLeft(mp1, 5, -4) = " << rotateLeft(mp1, 5, -4) << endl; //check out of bounds negative pos
+        cerr << "rotateLeft(mp1, 5, 10) = " << rotateLeft(mp1, 5, 10) << endl; //check out of bounds out of bounds pos
+        cerr << "rotateLeft(mp1, -5, 3) = " << rotateLeft(mp1, -5, 3) << endl; //negative n
+        cerr << "\n";
 
-    string z[9] = {
-        "tony", "boris", "rishi", "rishi", "gordon", "gordon", "gordon", "rishi", "rishi"};
-    int p = countRuns(z, 9); //  returns 5
-    assert(p == 5);
-    
-    string charles[10] = {"tony", "boris", "rishi", "rishi", "gordon", "gordon", "gordon", "rishi", "rishi", "alien"};
-    p = countRuns(z, 10); // another normal test case that returns 6
-    assert(p == 6);
+        string d[9] = {"tony", "boris", "rishi", "rishi", "gordon", "gordon", "gordon", "rishi", "rishi"};
+        cerr << "countRuns(d, 9) = " << countRuns(d, 9) << endl; //counts 5 sequences
+        cerr << "countRuns(d, -9) = " << countRuns(d, -9) << endl; //tests negative
+        cerr << "\n";
 
+        string leader[6] = {"boris", "rishi", "xD", "tony", "theresa", "david"};
+        cerr << "flip(leader, 4) = " << flip(leader, 4) << endl; //tests first 4 swap
+        for (int i = 0; i < sizeof(leader)/sizeof(string); i++) { //look at new array
+            cerr << leader[i] << " ";
+        }
+        cerr << endl;
+        string leader1[7] = {"boris", "rishi", "xD", "tony", "theresa", "david", "arthur"};
+        cerr << "flip(leader1, 7) = " << flip(leader1, 7) << endl; //tests an odd-numbered array flip
+        for (int i = 0; i < sizeof(leader1)/sizeof(string); i++) { //look at new array
+            cerr << leader1[i] << " ";
+        }
+        cerr << "\n\n";
 
-    string f[3] = {"liz", "gordon", "tony"};
-    assert(lookupAny(h, 7, f, 3) == 2);
-    assert(flip(f, 3) == 3 && f[0] == "tony" && f[2] == "liz");
+        string leader2[6] = {"boris", "rishi", "", "tony", "theresa", "david"};
+        string politician[5] = {"boris", "rishi", "david", "", "tony"};
+        cerr << "differ(leader2, 6, politician, 5) = " << differ(leader2, 6, politician, 5) << endl; //normal test, should return index 2
+        cerr << "differ(leader2, 2, politician, 1) = " << differ(leader2, 2, politician, 1) << endl; //when boths n's run out
+        cerr << "differ(leader2, -3, politician, 1) = " << differ(leader2, -3, politician, 1) << endl; //check negative n
+        cerr << "\n";
 
-    string leader[6] = {"boris", "rishi", "", "tony", "theresa", "david"};
-    string politician[5] = {"boris", "rishi", "david", "", "tony"};
-    int r = differ(leader, 6, politician, 5); //  returns 2
-    int s = differ(leader, 2, politician, 1); //  returns 1
-    assert(r == 2);
-    assert(s == 1);
+        string names[10] = {"john", "margaret", "theresa", "rishi", "boris", "liz"};
+        string names1[10] = {"margaret", "theresa", "rishi"};
+        string names2[10] = {"john", "rishi"};
+        string names3[0] = {};
+        string names4[0] = {};
+        cerr << "subsequence(names, 6, names1, 3) = " << subsequence(names, 6, names1, 3) << endl; //normal test, found a subsequence at index 1
+        cerr << "subsequence(names, 5, names2, 2) = " << subsequence(names, 5, names2, 2) << endl; //test w/ no subsequence in names
+        cerr << "subsequence(names, 6, names3, 0) = " << subsequence(names, 6, names3, 0) << endl; //test with names3 as an empty array
+        cerr << "subsequence(names3, 0, names4, 0) = " << subsequence(names3, 0, names4, 0) << endl; //2 empty subsequences, should still return 0
+        cerr << "subsequence(names3, 0, names2, 6) = " << subsequence(names3, 0, names2, 6) << endl; //test an empty array as man sequence and an actual array as subsequence, should return -1
+        cerr << "\n";
 
-    string e[4] = {"gordon", "tony", "", "john"};
-    assert(subsequence(h, 7, e, 4) == 2);
-    cout << "All tests succeeded" << endl;
+        string names5[10] = {"john", "margaret", "theresa", "rishi", "boris", "liz"};
+        string set1[10] = {"david", "boris", "rishi", "margaret"};
+        string set2[10] = {"tony", "gordon"};
+        string set3[0] = {};
+        cerr << "lookupAny(names5, 6, set1, 4) = " << lookupAny(names5, 6, set1, 4) << endl; //normal test, should return 1
+        cerr << "lookupAny(names5, 6, set2, 2) = " << lookupAny(names5, 6, set2, 2) << endl; //what if nothing from set2 exists in names5, returns -1
+        cerr << "lookupAny(names5, 6, set3, 0) = " << lookupAny(names5, 6, set3, 0) << endl; //empty set, should return -1
+        cerr << "\n";
 
-    string names[10] = {"john", "margaret", "theresa", "rishi", "boris", "liz"};
-    string names1[10] = {"margaret", "theresa", "rishi"};
-    int t = subsequence(names, 6, names1, 3); // returns 1
-    assert(t = 1);
-
-    string names2[10] = {"john", "rishi"};
-    int u = subsequence(names, 5, names2, 2); // returns -1
-    assert(u = -1);
-
-    string ga[10] = {"john", "margaret", "theresa", "rishi", "boris", "liz"};
-    string set1[10] = {"david", "boris", "rishi", "margaret"};
-    int v = lookupAny(ga, 6, set1, 4); // returns 1 (a1 has "margaret" there)
-    assert(v == 1);
-
-    string set2[10] = {"tony", "gordon"};
-    int w = lookupAny(ga, 6, set2, 2); // returns -1 (a1 has none)
-    assert(w == -1);
-
-    string pm2[4] = {"margaret", "theresa", "liz", "rishi"};
-    int y = split(pm2, 4, "rishi"); //  returns 2
-
-    for (int j = 0; j < 4; j++)
-        cout << pm2[j] << " ";
-    cout << endl;
-    assert(y == 2);
-
-    // pm2 must now be either
-    //      "margaret"  "liz"  "rishi"  "theresa"
-    // or   "liz"  "margaret"  "rishi"  "theresa"
-    // All elements < "rishi" (i.e., "liz" and "margaret") come
-    // before all others.
-    // All elements > "rishi" (i.e., "theresa") come after all others.
-
-    string pm[6] = {"david", "liz", "margaret", "tony", "gordon", "boris"};
-    int x = split(pm, 6, "john"); //  returns 3
-    assert(x == 3);
-
-    for (int j = 0; j < 6; j++)
-        cout << pm[j] << " ";
-    cout << endl;
-
-    // pm must now be
-    //      "david"  "gordon"  "boris"  "liz"  "tony"  "margaret"
-    // or   "gordon"  "boris"  "david"  "margaret"  "liz"  "tony"
-    // or one of several other orderings.
-    // All elements < "john" (i.e., "gordon", "boris", and "david")
-    //   come before all others
-    // All elements > "john" (i.e., "tony", "liz", and "margaret")
-    //   come after all others
-
-    
+        string pm2[6] = {"david", "liz", "margaret", "tony", "gordon", "boris"};
+        string pm3[4] = {"margaret", "theresa", "liz", "rishi"};
+        cerr << "split(pm2, 6, \"john\") = " << split(pm2, 6, "john") << endl; //normal test
+        for (int i = 0; i < sizeof(pm2)/sizeof(string); i++) {
+            cerr << pm2[i] << " ";
+        }
+        cerr << endl;
+        cerr << "split(pm3, 4, \"rishi\") = " << split(pm3, 4, "rishi") << endl; //includes the splitter itself in the string array
+        for (int i = 0; i < sizeof(pm3)/sizeof(string); i++) {
+            cerr << pm3[i] << " ";
+        }
+        cerr << "\n\n";
     
     return 0;
 }
