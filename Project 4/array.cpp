@@ -134,19 +134,18 @@ int subsequence(const string a1[], int n1, const string a2[], int n2)
     bool ans = false;
     while (i < n1)
     {
-        if (a2[i] == a1[i])
+        if (a2[0] == a1[i])
         {
             for (int a = 0; a < n2; a++)
             {
-                if (a1[i] == a2[a])
+                if (a1[a+i] == a2[a])
                     ans = true;
                 else ans = false;
             }
             if (ans == true)
                 return i;
         }
-        else
-            i++;
+        i++;
     }
     return -1;
 }
