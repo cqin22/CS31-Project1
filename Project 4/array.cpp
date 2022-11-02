@@ -52,9 +52,10 @@ int rotateLeft(string a[], int n, int pos)
         return -1;
     if (pos < 0)
         return -1;
-    if(pos > n) return -1;
+    if (pos > n)
+        return -1;
     string first = a[pos];
-    for (int i = pos; i < n - 1; i++)
+    for (int i = pos; i < (n - 1); i++)
     {
         a[i] = a[i + 1];
     }
@@ -62,10 +63,9 @@ int rotateLeft(string a[], int n, int pos)
     return pos;
 }
 
-// likely wrong
 int countRuns(const string a[], int n)
 {
-    //Return the number of sequences of one or more consecutive identical items in a.
+    // Return the number of sequences of one or more consecutive identical items in a.
     if (n < 0)
         return -1;
 
@@ -85,7 +85,7 @@ int countRuns(const string a[], int n)
 int flip(string a[], int n)
 {
     // Reverse the order of the elements of the array and return n.
-    if (n < 0)
+    if (n <= 0)
         return -1;
     int z = n - 1;
     string temp;
@@ -128,19 +128,20 @@ int subsequence(const string a1[], int n1, const string a2[], int n2)
     // If all n2 elements of a2 appear in a1, consecutively and in the same order, then return the position in a1 where that subsequence begins. If the subsequence appears more than once in a1, return the smallest such beginning position in the array.
     if (n1 < 0 || n2 < 0)
         return -1;
-    if ((n1 == 0 && n2 == 0) || n2 == 0)
+    if (n1 == 0 && n2 == 0)
         return 0;
     int i = 0;
     bool ans = false;
-    while (i < n1)
+    while (i < n1) // loops through sequence comparing the subsequence through iteration i
     {
         if (a2[0] == a1[i])
         {
             for (int a = 0; a < n2; a++)
             {
-                if (a1[a+i] == a2[a])
+                if (a1[a + i] == a2[a])
                     ans = true;
-                else ans = false;
+                else
+                    ans = false;
             }
             if (ans == true)
                 return i;
@@ -174,44 +175,37 @@ int split(string a[], int n, string splitter)
     // Rearrange the elements of the array so that all the elements whose value is < splitter come before all the other elements, and all the elements whose value is > splitter come after all the other elements.
     if (n < 0)
         return -1;
-    int element = 0;
-    int j;
-    string newa[n];
+
     int ans = 0;
 
-    for (j = 0; j < n; j++)
+    int smallest;
+    int j;
+    string temp;
+    for (int i = 0; i < n - 1; i++) // first alphabet-order all elements
+    {
+        smallest = i;
+        for (j = i + 1; j < n; j++)
+        {
+            if (a[j] < a[smallest])
+            {
+                smallest = j;
+            }
+        }
+        temp = a[i];
+        a[i] = a[smallest];
+        a[smallest] = temp;
+    }
+
+    for (j = 0; j < n; j++) // find first instance of splitter
     {
         if (a[j] < splitter)
         {
-            newa[element] = a[j];
-            element++;
             ans++;
         }
     }
 
-    for (j = 0; j < n; j++)
-    {
-        if (a[j] == splitter)
-        {
-            newa[element] = a[j];
-            element++;
-        }
-    }
-
-    for (j = 0; j < n; j++)
-    {
-        if (a[j] > splitter)
-        {
-            newa[element] = a[j];
-            element++;
-        }
-    }
-
-    for (j = 0; j < n; j++)
-        a[j] = newa[j];
     return ans;
 }
-
 // shift elements forward
 // for (int i = n; i >= 0; i--)
 //     newa[i] = newa[i - 1];
@@ -220,101 +214,6 @@ int split(string a[], int n, string splitter)
 // newa[0] = "test";
 int main()
 {
-    string people[5] = {"boris", "gordon", "rishi", "liz", "john"};
-        cerr << "appendToAll(people, -4, \"!!!\") = " << appendToAll(people, -4, "!!!") << endl; //test negative
-        cerr << "appendToAll(people, 5, \"!!!\") = " << appendToAll(people, 5, "!!!") << endl; //test normal cases
-        for (int i = 0; i < sizeof(people)/sizeof(string); i++) {
-            cerr << people[i] << " ";
-        }
-        cerr << "\n\n";
 
-        string people1[6] = {"boris", "gordon", "rishi", "liz", "john", "gordon"};
-        cerr << "lookup(people1, 6, \"gordon\") = " << lookup(people1, 6, "gordon") << endl; //find earliest gordon
-        cerr << "lookup(people1, 6, \"arthur\") = " << lookup(people1, 6, "arthur") << endl; //what if target string doesn't exist
-        cerr << "\n";
-
-        string pm[7] = {"david", "liz", "margaret", "tony", "gordon", "boris", "tony"};
-        cerr << "positionOfMax(pm, 7) = " << positionOfMax(pm, 7) << endl; //finds first instance of alphabetically-last name
-        string pm1[0] = {};
-        cerr << "positionOfMax(pm1, 0) = " << positionOfMax(pm1, 0) << endl; //if no interesting elements
-        cerr << "\n";
-
-        string mp[5] = {"john", "david", "liz", "theresa", "margaret"};
-        cerr << "rotateLeft(mp, 5, 1) = " << rotateLeft(mp, 5, 1) << endl; //tests a normal scenario
-        for (int i = 0; i < sizeof(mp)/sizeof(string); i++) { //look at new array
-            cerr << mp[i] << " ";
-        }
-        cerr << endl;
-        string mp1[5] = {"john", "david", "liz", "theresa", "margaret"};
-        cerr << "rotateLeft(mp1, 5, -4) = " << rotateLeft(mp1, 5, -4) << endl; //check out of bounds negative pos
-        cerr << "rotateLeft(mp1, 5, 10) = " << rotateLeft(mp1, 5, 10) << endl; //check out of bounds out of bounds pos
-        cerr << "rotateLeft(mp1, -5, 3) = " << rotateLeft(mp1, -5, 3) << endl; //negative n
-        cerr << "\n";
-
-        string d[9] = {"tony", "boris", "rishi", "rishi", "gordon", "gordon", "gordon", "rishi", "rishi"};
-        cerr << "countRuns(d, 9) = " << countRuns(d, 9) << endl; //counts 5 sequences
-        cerr << "countRuns(d, -9) = " << countRuns(d, -9) << endl; //tests negative
-        cerr << "\n";
-
-        string leader[6] = {"boris", "rishi", "xD", "tony", "theresa", "david"};
-        cerr << "flip(leader, 4) = " << flip(leader, 4) << endl; //tests first 4 swap
-        for (int i = 0; i < sizeof(leader)/sizeof(string); i++) { //look at new array
-            cerr << leader[i] << " ";
-        }
-        cerr << endl;
-        string leader1[7] = {"boris", "rishi", "xD", "tony", "theresa", "david", "arthur"};
-        cerr << "flip(leader1, 7) = " << flip(leader1, 7) << endl; //tests an odd-numbered array flip
-        for (int i = 0; i < sizeof(leader1)/sizeof(string); i++) { //look at new array
-            cerr << leader1[i] << " ";
-        }
-        cerr << "\n\n";
-
-        string leader2[6] = {"boris", "rishi", "", "tony", "theresa", "david"};
-        string politician[5] = {"boris", "rishi", "david", "", "tony"};
-        cerr << "differ(leader2, 6, politician, 5) = " << differ(leader2, 6, politician, 5) << endl; //normal test, should return index 2
-        cerr << "differ(leader2, 2, politician, 1) = " << differ(leader2, 2, politician, 1) << endl; //when boths n's run out
-        cerr << "differ(leader2, -3, politician, 1) = " << differ(leader2, -3, politician, 1) << endl; //check negative n
-        cerr << "\n";
-
-        string names[10] = {"john", "margaret", "theresa", "rishi", "boris", "liz"};
-        string names1[10] = {"margaret", "theresa", "rishi"};
-        string names2[10] = {"john", "rishi"};
-        string names3[0] = {};
-        string names4[0] = {};
-        cerr << "subsequence(names, 6, names1, 3) = " << subsequence(names, 6, names1, 3) << endl; //normal test, found a subsequence at index 1
-        cerr << "subsequence(names, 5, names2, 2) = " << subsequence(names, 5, names2, 2) << endl; //test w/ no subsequence in names
-        cerr << "subsequence(names, 6, names3, 0) = " << subsequence(names, 6, names3, 0) << endl; //test with names3 as an empty array
-        cerr << "subsequence(names3, 0, names4, 0) = " << subsequence(names3, 0, names4, 0) << endl; //2 empty subsequences, should still return 0
-        cerr << "subsequence(names3, 0, names2, 6) = " << subsequence(names3, 0, names2, 6) << endl; //test an empty array as man sequence and an actual array as subsequence, should return -1
-        cerr << "\n";
-
-        string names5[10] = {"john", "margaret", "theresa", "rishi", "boris", "liz"};
-        string set1[10] = {"david", "boris", "rishi", "margaret"};
-        string set2[10] = {"tony", "gordon"};
-        string set3[0] = {};
-        cerr << "lookupAny(names5, 6, set1, 4) = " << lookupAny(names5, 6, set1, 4) << endl; //normal test, should return 1
-        cerr << "lookupAny(names5, 6, set2, 2) = " << lookupAny(names5, 6, set2, 2) << endl; //what if nothing from set2 exists in names5, returns -1
-        cerr << "lookupAny(names5, 6, set3, 0) = " << lookupAny(names5, 6, set3, 0) << endl; //empty set, should return -1
-        cerr << "\n";
-
-        string pm2[6] = {"david", "liz", "margaret", "tony", "gordon", "boris"};
-        string pm3[4] = {"margaret", "theresa", "liz", "rishi"};
-        cerr << "split(pm2, 6, \"john\") = " << split(pm2, 6, "john") << endl; //normal test
-        for (int i = 0; i < sizeof(pm2)/sizeof(string); i++) {
-            cerr << pm2[i] << " ";
-        }
-        cerr << endl;
-        cerr << "split(pm3, 4, \"rishi\") = " << split(pm3, 4, "rishi") << endl; //includes the splitter itself in the string array
-        for (int i = 0; i < sizeof(pm3)/sizeof(string); i++) {
-            cerr << pm3[i] << " ";
-        }
-        cerr << "\n\n";
-    
-    string l[6] = { "boris", "rishi", "", "tony", "theresa", "david" };
-    int q = flip(l, 4);  // returns 4
-        // leader now contains:  "tony"  ""  "rishi"  "boris"  "theresa"  "david"
-    for (int i = 0; i < 6; i++) {
-        cerr << l[i] << " ";
-    }
     return 0;
 }
