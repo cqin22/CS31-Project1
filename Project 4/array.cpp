@@ -4,6 +4,7 @@ using namespace std;
 
 int appendToAll(string a[], int n, string value)
 {
+    // Appends given value to each n of the array
     if (n < 0)
         return -1;
     for (int i = 0; i < n; i++)
@@ -13,6 +14,7 @@ int appendToAll(string a[], int n, string value)
 
 int lookup(const string a[], int n, string target)
 {
+    // Return the position of a string in the array that is equal to target
     if (n < 0)
         return -1;
     for (int i = 0; i < n; i++)
@@ -23,6 +25,7 @@ int lookup(const string a[], int n, string target)
 
 int positionOfMax(const string a[], int n)
 {
+    // Return the position of a string in the array such that that string is >= every string in the array
     if (n <= 0)
         return -1;
     string max = a[0];
@@ -44,6 +47,7 @@ int positionOfMax(const string a[], int n)
 
 int rotateLeft(string a[], int n, int pos)
 {
+    // Eliminate the item at position pos by copying all elements after it one place to the left. Put the item that was thus eliminated into the last position of the array. Return the original position of the item that was moved to the end.
     if (n < 0)
         return -1;
     if (pos < 0)
@@ -60,6 +64,7 @@ int rotateLeft(string a[], int n, int pos)
 // likely wrong
 int countRuns(const string a[], int n)
 {
+    //Return the number of sequences of one or more consecutive identical items in a.
     if (n < 0)
         return -1;
 
@@ -78,6 +83,7 @@ int countRuns(const string a[], int n)
 
 int flip(string a[], int n)
 {
+    // Reverse the order of the elements of the array and return n.
     if (n < 0)
         return -1;
     int z = n - 1;
@@ -94,6 +100,7 @@ int flip(string a[], int n)
 
 int differ(const string a1[], int n1, const string a2[], int n2)
 {
+    // Return the position of the first corresponding elements of a1 and a2 that are not equal.
     if (n1 < 0 || n2 < 0)
         return -1;
     int smaller;
@@ -117,6 +124,7 @@ int differ(const string a1[], int n1, const string a2[], int n2)
 
 int subsequence(const string a1[], int n1, const string a2[], int n2)
 {
+    // If all n2 elements of a2 appear in a1, consecutively and in the same order, then return the position in a1 where that subsequence begins. If the subsequence appears more than once in a1, return the smallest such beginning position in the array.
     if (n1 < 0 || n2 < 0)
         return -1;
     if ((n1 == 0 && n2 == 0) || n2 == 0)
@@ -143,6 +151,7 @@ int subsequence(const string a1[], int n1, const string a2[], int n2)
 
 int lookupAny(const string a1[], int n1, const string a2[], int n2)
 {
+    // Return the smallest position in a1 of an element that is equal to any of the n2 elements in a2. Return −1 if no element of a1 is equal to any element of a2. For example,
     if (n1 < 0 || n2 < 0)
         return -1;
 
@@ -161,6 +170,7 @@ int lookupAny(const string a1[], int n1, const string a2[], int n2)
 
 int split(string a[], int n, string splitter)
 {
+    // Rearrange the elements of the array so that all the elements whose value is < splitter come before all the other elements, and all the elements whose value is > splitter come after all the other elements.
     if (n < 0)
         return -1;
     int element = 0;
@@ -235,6 +245,11 @@ int main()
         "tony", "boris", "rishi", "rishi", "gordon", "gordon", "gordon", "rishi", "rishi"};
     int p = countRuns(z, 9); //  returns 5
     assert(p == 5);
+    
+    string charles[10] = {"tony", "boris", "rishi", "rishi", "gordon", "gordon", "gordon", "rishi", "rishi", "alien"};
+    p = countRuns(z, 10); // another normal test case that returns 6
+    assert(p == 6);
+
 
     string f[3] = {"liz", "gordon", "tony"};
     assert(lookupAny(h, 7, f, 3) == 2);
@@ -301,5 +316,7 @@ int main()
     // All elements > "john" (i.e., "tony", "liz", and "margaret")
     //   come after all others
 
+    
+    
     return 0;
 }
