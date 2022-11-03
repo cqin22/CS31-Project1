@@ -55,7 +55,7 @@ int rotateLeft(string a[], int n, int pos)
     if (pos >= n)
         return -1;
     string first = a[pos];
-    for (int i = pos; i < (n - 1); i++)
+    for (int i = pos; i < (n - 1); i++) // rotates left
     {
         a[i] = a[i + 1];
     }
@@ -89,7 +89,7 @@ int flip(string a[], int n)
         return -1;
     int z = n - 1;
     string temp;
-    for (int i = 0; i < n / 2; i++)
+    for (int i = 0; i < n / 2; i++) // reverses order by switching the frist and last element
     {
         temp = a[i];
         a[i] = a[z];
@@ -114,7 +114,7 @@ int differ(const string a1[], int n1, const string a2[], int n2)
     while (i < smaller)
     {
         if (i == smaller)
-            return smaller;
+            return smaller; // checks if the smaller of n1 and n2 gets hit first
         if (a1[i] == a2[i])
             i++;
         else
@@ -128,7 +128,7 @@ int subsequence(const string a1[], int n1, const string a2[], int n2)
     // If all n2 elements of a2 appear in a1, consecutively and in the same order, then return the position in a1 where that subsequence begins. If the subsequence appears more than once in a1, return the smallest such beginning position in the array.
     if (n1 < 0 || n2 < 0)
         return -1;
-    if (n1 == 0 && n2 == 0 || n2 == 0)
+    if ((n1 == 0 && n2 == 0) || n2 == 0)
         return 0;
     int i = 0;
     bool ans = false;
@@ -181,7 +181,7 @@ int split(string a[], int n, string splitter)
     int smallest;
     int j;
     string temp;
-    for (int i = 0; i < n - 1; i++) // first alphabet-order all elements
+    for (int i = 0; i < n - 1; i++) // firstly, alphabet-order all elements
     {
         smallest = i;
         for (j = i + 1; j < n; j++)
@@ -206,12 +206,7 @@ int split(string a[], int n, string splitter)
 
     return ans;
 }
-// shift elements forward
-// for (int i = n; i >= 0; i--)
-//     newa[i] = newa[i - 1];
 
-// // insert x at pos
-// newa[0] = "test";
 int main()
 {
     // for appendToAll
