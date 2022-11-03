@@ -341,6 +341,6 @@ int main()
     assert(lookupAny(z, 1, Z, 0) == -1); // a1 can't have common elements w/ a2 bc it has none
     assert(lookupAny(z, 0, Z, 1) == -1); // a1 can't have common elements w/ a2 bc it has none
 
-    cout << "all passed";
+    cout << "all passed :D";
     return 0;
 }
