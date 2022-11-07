@@ -13,7 +13,8 @@ using namespace std;
       
       const int MAX_VALUE = 999999;
       char guess[100];
-      int silver = 0, gold = 0, score = 0, i = 0;
+      char temp[MAXWORDLEN+1];
+      int silver = 0, gold = 0, score = 0, i = 0, guessLen =0;
       bool isValid = true, isWord = false, g = false, s = false;
       
       while (true)
@@ -44,16 +45,21 @@ using namespace std;
           gold = 0;
           silver = 0;
           
+          guessLen = strlen(guess);
+          strcpy(temp, words[wordnum]);
+          for(i = 0; i < guessLen && i < strlen(words[wordnum]); i++){
+              if(guess[i] == temp[i])
+              {
+                  guess[i] = '!';
+                  temp[i] = '!';
+                  gold++;
+              }
+          }
           
-          for(i = 0; i < strlen(guess); i++){
-              g = false;
-              s = false;
-              for(int j = 0; j < strlen(words[wordnum]) && g != true && s != true; j++){
-                  if(guess[i] == words[wordnum][i]){
-                      gold++;
-                      g = true;
-                  }
-                  else if(guess[j] == words[wordnum][i]){
+          for(i = 0; i < guessLen; i ++){
+              for(int j = 0; j < strlen(words[wordnum]); j++){
+                  if (guess[i] != '!' && (guess[i]) == temp[j]){
+                      temp[j] = '!';
                       silver++;
                       break;
                   }
@@ -61,6 +67,23 @@ using namespace std;
               }
               
           }
+          
+//          for(i = 0; i < strlen(guess); i++){
+//              g = false;
+//              s = false;
+//              for(int j = 0; j < strlen(words[wordnum]) && g != true && s != true; j++){
+//                  if(guess[i] == words[wordnum][i]){
+//                      gold++;
+//                      g = true;
+//                  }
+//                  else if(guess[j] == words[wordnum][i]){
+//                      silver++;
+//                      break;
+//                  }
+//
+//              }
+//
+//          }
           if(gold == strlen(words[wordnum]) && strlen(guess) == strlen(words[wordnum]) && score ==1){
               cout << "You got it in 1 try." << endl;
               return score;
