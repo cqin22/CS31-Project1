@@ -1,79 +1,88 @@
 #include "utilities.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
-int main()
+
+  const int MAXWORDS = 10000;
+
+  int playOneRound(const char words[][MAXWORDLEN + 1], int nWords, int wordnum)
 {
-    cout << "Here's a random year from 1990 to 2022: " << randInt(1990, 2022) << endl;
-}
+      if (nWords <= 0 || nWords < 0 || wordnum >= nWords)
+          return -1;
+      
+      const int MAX_VALUE = 999999;
+      char guess[100];
+      int silver = 0, gold = 0, score = 0, i = 0;
+      bool ans = true;
+      bool isValid = true, isWord = false;
+      
+      while (ans)
+      {
+          cout << words[wordnum];
+          cout << "Probe word: ";
+          char guess[100];
+          cin.ignore(10000, '\n');
+          cin.getline(guess, 105);
+          cin.ignore(10000, '\n');
+          isValid = true;
+          if (strlen(guess) < MINWORDLEN || strlen(guess) > MAXWORDLEN)
+              isValid = false;
+          for (i = 0; i < strlen(guess); i++){
+              if (!islower(guess[i]))
+                  isValid = false;
+          }
+          if (!isValid)
+              cout << "Your probe word must be a word of 4 to 6 lower case letters.";
+          isWord = false;
+          for(i = 0; i < nWords; i++) {
+              if(strcmp(guess, words[i]) == 0) isWord = true;
+          }
+          if(!isWord)  cout << "I don't know that word.";
+          
+          for(i = 0; i < strlen(guess); i++){
+              for(int j = 0; j < strlen(words[wordnum]); j++){
+                  if(guess[i] == words[wordnum][i]){
+                      gold++;
+                      break;
+                  }
+                  else if(guess[j] == words[wordnum][i]){
+                      silver++;
+                      break;
+                      
+                  }
+                  
+              }
+              
+          }
+          cout << "Golds: " << gold << ", Silvers: " << silver << endl;
 
-// #include <iostream>
-// #include "utilities.h"
-// #include <cstring>
-// using namespace std;
+      }
+      return -1;
 
-// const char WORDFILENAME[] = "/Users/charlesqin/Desktop/CSP5/word.txt";
+  }
 
-// int main()
-// {
-//     char w[9000][7];
-//     int n = getWords(w, 9000, WORDFILENAME);
-//     if (n == 2)
-//     {
-//         cout << "getWords successfully found the file and read its two words." << endl;
-//         cout << "You're ready to start working on Project 5." << endl;
-//     }
-//     else if (n == -1)
-//         cout << "The path to your file of words is probably incorrect" << endl;
-//     else
-//         cout << "getWords found the file, but loaded " << n << " words instead of 2" << endl;
-// }
+  int main()
+  {
 
-// // const int MAXWORDS = 10000;
+      char wordList[MAXWORDS][MAXWORDLEN + 1];
+      const char WORDFILENAME[] = "/Users/learningcenters/Desktop/Charles Folder/P5/game/word.txt";
 
-// // int playOneRound(const char words[][MAXWORDLEN + 1], int nWords, int wordnum)
-// // {
-// //     if (nWords <= 0 || nWords < 0 || wordnum >= nWords)
-// //         return -1;
+      int rounds = 0, num = 0, numberWords = getWords(wordList, MAXWORDS, WORDFILENAME);
+      
+      if(numberWords < 1) cout << "No words were loaded, so I can't play the game.";
 
-// //     // const int MAX_VALUE = 999999, ;
-// //     char guess[100];
-// //     int silver = 0, gold = 0;
-// //     bool ans = true;
-// //     bool isValid;
+      
+      cout << "How many rounds do you want to play?";
+      cin >> rounds;
 
-// //     while (ans)
-// //     {
-// //         cout << "Probe word: ";
-// //         cin.getline(guess, 100, '\n');
-
-// //         if (strlen(guess) < MINWORDLEN || strlen(guess) > MAXWORDLEN)
-// //             isValid = false;
-// //         for (int i = 0; i < strlen(guess); i++)
-// //             if (!islower(guess[i]))
-// //                 isValid = false;
-// //         if (!isValid)
-// //             cout << "Your probe word must be a word of 4 to 6 lower case letters.";
-// //         isValid = true;
-// //     }
-// // }
-
-// // int main()
-// // {
-
-// //     char wordList[MAXWORDS][MAXWORDLEN + 1];
-// //     const char WORDFILENAME[] = "/Users/charlesqin/Desktop/CS P5/words.txt";
-
-// //     int rounds = 0, numberWords = getWords(wordList, MAXWORDS, WORDFILENAME);
-
-// //     cout << "How many rounds do you want to play?";
-// //     cin >> rounds;
-
-// //     if (rounds < 0)
-// //     {
-// //         cout << "The number of rounds must be positive.";
-// //         return 0;
-// //     }
-
-// //     // for(int i = 0; i < rounds; i++) playOneRound(wordList, numberWords, num)
-// // }
+      if (rounds < 0)
+      {
+          cout << "The number of rounds must be positive.";
+          return 0;
+      }
+      
+      num = randInt(0, numberWords-1); //do i have the -1 here?
+      
+      for(int i = 0; i < rounds; i++) playOneRound(wordList, numberWords, num);
+  }
