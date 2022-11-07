@@ -14,17 +14,18 @@ using namespace std;
       const int MAX_VALUE = 999999;
       char guess[100];
       int silver = 0, gold = 0, score = 0, i = 0;
-      bool ans = true;
-      bool isValid = true, isWord = false;
+      bool isValid = true, isWord = false, g = false, s = false;
       
-      while (ans)
+      while (true)
       {
           cout << words[wordnum];
           cout << "Probe word: ";
           char guess[100];
-          cin.ignore(10000, '\n');
-          cin.getline(guess, 105);
-          cin.ignore(10000, '\n');
+          cin >> guess;
+          score++;
+//          cin.ignore(10000, '\n');
+//          cin.getline(guess, 105);
+//          cin.ignore(10000, '\n');
           isValid = true;
           if (strlen(guess) < MINWORDLEN || strlen(guess) > MAXWORDLEN)
               isValid = false;
@@ -38,28 +39,39 @@ using namespace std;
           for(i = 0; i < nWords; i++) {
               if(strcmp(guess, words[i]) == 0) isWord = true;
           }
-          if(!isWord)  cout << "I don't know that word.";
+          if(!isWord)  cout << "I don't know that word." << endl;
+          
+          gold = 0;
+          silver = 0;
+          
           
           for(i = 0; i < strlen(guess); i++){
-              for(int j = 0; j < strlen(words[wordnum]); j++){
+              g = false;
+              s = false;
+              for(int j = 0; j < strlen(words[wordnum]) && g != true && s != true; j++){
                   if(guess[i] == words[wordnum][i]){
                       gold++;
-                      break;
+                      g = true;
                   }
                   else if(guess[j] == words[wordnum][i]){
                       silver++;
                       break;
-                      
                   }
                   
               }
               
           }
+          if(gold == strlen(words[wordnum]) && strlen(guess) == strlen(words[wordnum]) && score ==1){
+              cout << "You got it in 1 try." << endl;
+              return score;
+          }
+          else if(gold == strlen(words[wordnum]) && strlen(guess) == strlen(words[wordnum])){
+              cout << "You got it in " << score <<" tries." << endl;
+              return score;
+          }
           cout << "Golds: " << gold << ", Silvers: " << silver << endl;
 
       }
-      return -1;
-
   }
 
   int main()
@@ -82,7 +94,9 @@ using namespace std;
           return 0;
       }
       
-      num = randInt(0, numberWords-1); //do i have the -1 here?
       
-      for(int i = 0; i < rounds; i++) playOneRound(wordList, numberWords, num);
+      for(int i = 0; i < rounds; i++){
+          num = randInt(0, numberWords-1); //do i have the -1 here?
+          playOneRound(wordList, numberWords, num);
+      }
   }
