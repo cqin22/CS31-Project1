@@ -1,6 +1,7 @@
 #include "utilities.h"
 #include <iostream>
 #include <cstring>
+#include <iomanip>
 using namespace std;
 
 
@@ -11,22 +12,19 @@ using namespace std;
       if (nWords <= 0 || nWords < 0 || wordnum >= nWords)
           return -1;
       
-      const int MAX_VALUE = 999999;
-      char guess[100];
-      char temp[MAXWORDLEN+1];
-      int silver = 0, gold = 0, score = 0, i = 0, guessLen =0;
-      bool isValid = true, isWord = false, g = false, s = false;
+      const int MAX = 99999;
+      char guess[MAX];
+      char target[MAXWORDLEN+1];
+      int silver = 0, gold = 0, score = 0, i = 0;
+      bool isValid = true, isWord = false;
       
       while (true)
       {
-          cout << words[wordnum];
+          cout << words[wordnum] << endl;
           cout << "Probe word: ";
-          char guess[100];
-          cin >> guess;
+          cin.getline(guess, MAX, '\n');
           score++;
-//          cin.ignore(10000, '\n');
-//          cin.getline(guess, 105);
-//          cin.ignore(10000, '\n');
+
           isValid = true;
           if (strlen(guess) < MINWORDLEN || strlen(guess) > MAXWORDLEN)
               isValid = false;
@@ -34,83 +32,70 @@ using namespace std;
               if (!islower(guess[i]))
                   isValid = false;
           }
-          if (!isValid)
-              cout << "Your probe word must be a word of 4 to 6 lower case letters.";
+          
           isWord = false;
           for(i = 0; i < nWords; i++) {
               if(strcmp(guess, words[i]) == 0) isWord = true;
           }
-          if(!isWord)  cout << "I don't know that word." << endl;
-          
-          gold = 0;
-          silver = 0;
-          
-          guessLen = strlen(guess);
-          strcpy(temp, words[wordnum]);
-          for(i = 0; i < guessLen && i < strlen(words[wordnum]); i++){
-              if(guess[i] == temp[i])
-              {
-                  guess[i] = '!';
-                  temp[i] = '!';
-                  gold++;
-              }
+          if (!isValid){
+              cout << "Your probe word must be a word of 4 to 6 lower case letters." << endl;
+              score--;
+          }
+          else if(!isWord) {
+              cout << "I don't know that word." << endl;
+              score--;
           }
           
-          for(i = 0; i < guessLen; i ++){
-              for(int j = 0; j < strlen(words[wordnum]); j++){
-                  if (guess[i] != '!' && (guess[i]) == temp[j]){
-                      temp[j] = '!';
-                      silver++;
-                      break;
+          if(isValid && isWord){
+              gold = 0;
+              silver = 0;
+              
+              strcpy(target, words[wordnum]);
+              
+              for(i = 0; i < strlen(guess) && i < strlen(words[wordnum]); i++){
+                  if(target[i] == guess[i])
+                  {
+                      guess[i] = '#';
+                      target[i] = '#';
+                      gold++;
+                  }
+              }
+              
+              for(i = 0; i < strlen(guess); i ++){
+                  for(int j = 0; j < strlen(words[wordnum]); j++){
+                      if (guess[i] != '#' && target[j] == (guess[i])){
+                          target[j] = '#';
+                          silver++;
+                          break;
+                      }
+                      
                   }
                   
               }
               
           }
           
-//          for(i = 0; i < strlen(guess); i++){
-//              g = false;
-//              s = false;
-//              for(int j = 0; j < strlen(words[wordnum]) && g != true && s != true; j++){
-//                  if(guess[i] == words[wordnum][i]){
-//                      gold++;
-//                      g = true;
-//                  }
-//                  else if(guess[j] == words[wordnum][i]){
-//                      silver++;
-//                      break;
-//                  }
-//
-//              }
-//
-//          }
-          if(gold == strlen(words[wordnum]) && strlen(guess) == strlen(words[wordnum]) && score ==1){
-              cout << "You got it in 1 try." << endl;
-              return score;
-          }
-          else if(gold == strlen(words[wordnum]) && strlen(guess) == strlen(words[wordnum])){
-              cout << "You got it in " << score <<" tries." << endl;
-              return score;
-          }
-          cout << "Golds: " << gold << ", Silvers: " << silver << endl;
+          if(gold == strlen(words[wordnum]) && strlen(guess) == strlen(words[wordnum])) return score;
+          if(isValid && isWord)cout << "Golds: " << gold << ", Silvers: " << silver << endl;
 
       }
   }
 
   int main()
   {
-
+      
       char wordList[MAXWORDS][MAXWORDLEN + 1];
       const char WORDFILENAME[] = "/Users/learningcenters/Desktop/Charles Folder/P5/game/word.txt";
 
-      int rounds = 0, num = 0, numberWords = getWords(wordList, MAXWORDS, WORDFILENAME);
+      int min = 0, max = 0, rounds = 0, s = 0, num = 0, numberWords = getWords(wordList, MAXWORDS, WORDFILENAME);
+      double avg = 0;
       
       if(numberWords < 1) cout << "No words were loaded, so I can't play the game.";
 
       
-      cout << "How many rounds do you want to play?";
+      cout << "How many rounds do you want to play? ";
       cin >> rounds;
-
+      cin.ignore(10000, '\n');
       if (rounds < 0)
       {
           cout << "The number of rounds must be positive.";
@@ -120,6 +105,27 @@ using namespace std;
       
       for(int i = 0; i < rounds; i++){
           num = randInt(0, numberWords-1); //do i have the -1 here?
-          playOneRound(wordList, numberWords, num);
-      }
+          cout << "Round " << i +1 << endl << "The hidden word is " << strlen(wordList[num]) << " letters long." << endl;
+          s = playOneRound(wordList, numberWords, num);
+
+          if(s ==1){
+             cout << "You got it in 1 try." << endl;
+         }
+         else{
+             cout << "You got it in " << s <<" tries." << endl;
+         }
+          avg += s;
+          
+          if(i == 0) {min = s;
+              max = s;
+          }
+          else if(s < min) {min = s;}
+          else if(s > max) {max = s;}
+          
+          cout << "Average: "<< fixed << setprecision(2)<< avg/(i+1);
+          cout << ", minimum: "<< min <<", maximum: " << max << endl;
+
+
+     }
+      
   }
